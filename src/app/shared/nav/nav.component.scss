@@ -1,0 +1,16 @@
+.nav-menu{
+    background-color: #ccc;
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+    li{
+        margin: 0;
+        a {
+            color: white;
+            display: block;
+            padding: 10px 5px;
+            text-decoration: none;
+        }
+    }
+}

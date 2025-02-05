@@ -1,0 +1,20 @@
+<h2>Product Details</h2>
+<div class="product-detail" >
+    <div>
+        <strong> Name :</strong> {{ product.name}}   
+    </div> 
+    <div>
+        <strong>Description :</strong> {{ product.description }}
+    </div>
+    <div>
+        <strong>Price :</strong> {{ product.price }} 
+    </div>
+    <div>
+        <strong>Sold :</strong>  {{ product.status}}
+    </div>
+    <div class="right">
+        <a [routerLink]="['/products']">
+            Back to list
+        </a>
+    </div>
+</div>
