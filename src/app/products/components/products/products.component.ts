@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Products } from '../../interfaces/products';
 import { ProductsService } from '../../services/products/products.service';
 import { RouterModule } from '@angular/router';
+import { ProductStore } from '../../store/product.store';
 
 @Component({
   selector: 'products',
@@ -15,34 +16,16 @@ import { RouterModule } from '@angular/router';
 export class ProductsComponent implements OnInit {
   productList: Products[] = [];
 
-  constructor(private productsService: ProductsService) { }
+ // selectedProductId?: number | null = null;
+  store = inject(ProductStore);
 
   ngOnInit(): void {
-    this.fetchProducts();
-  }
-
-  fetchProducts(): void {
-    this.productsService.getProducts().subscribe({
-      next: (res) => {
-        this.productList = res
-      },
-      error: (error) => {
-        console.log(`Error fetching products`, error)
-      }
-    })
+    this.store.fetchProducts();
   }
 
   deleteProduct(id:number){
     if(confirm("Are you sure to delete the project")){
-      this.productsService.deleteProduct(id).subscribe({
-        next: (res) => { 
-          console.log(`Product ${id} has been deleted sucessfully!`, res);
-          this.fetchProducts();
-        },
-        error: (error) => {
-          console.log('Error in deleting Product', error);
-        }
-      })
+      this.store.deleteProduct(id);
     }
   }
 }

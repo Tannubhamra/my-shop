@@ -3,8 +3,9 @@
     <span class="float-right">
         <a routerLink="/add-product">Add Product</a>
     </span>
+    <h3 *ngIf="store.successMessage$() as message">{{ message }}</h3>
 </div>
-<table class="product-table">
+<table class="product-table" >
     <thead>
         <tr>
             <th>Product Name</th>
@@ -12,16 +13,18 @@
             <th>Action</th>
         </tr>
     </thead>
-    <tbody>
-        <tr *ngFor="let product of productList">
+    <tbody >
+        <tr *ngFor="let product of store.getProducts">
             <td>{{ product.name }}</td> 
             <td>{{ product.description}}</td>
             <td>
-                <a [routerLink]="['/product', product.id]">View Details</a>
+                <a [routerLink]="['/product', product.id]">View Details</a> | 
+                <a [routerLink]="['/product', product.id, 'edit']">Edit</a> |
                 <button (click)="deleteProduct(product.id)">Delete</button>
             </td>
         </tr>
     </tbody>
 </table>
+
 
 

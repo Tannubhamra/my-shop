@@ -1,18 +1,20 @@
 <div class="container">
-    <h2>Add Product</h2>
-    <h3 *ngIf="successMessage()">{{ successMessage() }}</h3>
-    <form [formGroup]="addProductForm" (ngSubmit)="addProduct()" class="add-product-form">
+    <h2> {{ productId() ? 'Edit Product' : 'Add Product' }}</h2>
+    <h3 *ngIf="store.successMessage$() as message">{{ message }}</h3>
+    <form [formGroup]="ProductForm" (ngSubmit)="saveProduct()" class="add-product-form">
         <div class="form-group">
             <label>Name: </label>
             <input type="text" formControlName="name"/> 
         </div>
         <div class="form-group">
             <label>Description: </label>
-        <input type="text" formControlName="description"/>
+        <textarea formControlName="description">
+            This is the default comment...  
+        </textarea>
         </div>
         <div class="form-group">
             <label>Price: </label>
-            <input type="number" formControlName="price"/>
+            <input type="text" formControlName="price"/>
         </div>
         
         <div class="form-group">
@@ -24,8 +26,12 @@
         </div>
         <div class="form-group">
             <label></label>
-            <button type="submit" [disabled]="addProductForm.invalid">Submit</button>
+            <button type="submit" [disabled]="ProductForm.invalid">{{ productId() ? 'Edit': 'Submit'}}</button>
         </div>
-        
     </form>
+    <div class="right">
+        <a [routerLink]="['/products']">
+            Back to list
+        </a>
+    </div>
 </div>
