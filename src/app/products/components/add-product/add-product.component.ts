@@ -24,7 +24,6 @@ export class AddProductComponent implements OnInit {
   private route = inject(ActivatedRoute);
 
   constructor() {
-  // this.productId.set(Number(this.route.snapshot.paramMap.get('id')));
   const routeId = toSignal(
     this.route.paramMap.pipe(
       map(params => {
