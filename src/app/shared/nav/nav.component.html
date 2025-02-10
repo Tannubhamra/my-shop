@@ -1,4 +1,12 @@
-<ul class="nav-menu">
-    <li><a routerLink="/home" >Home</a></li>
-    <li><a routerLink="/products" routerLinkActive="active">All Products</a></li>
-</ul>
+<nav class="block w-full px-4 py-2 shadow-md rounded-md lg:px-8 lg:py-3 mt-10 bg-gray-700">
+    <div class="container flex flex-wrap items-center justify-between mx-auto text-slate-800">
+        <ul class="flex flex-col gap-2 mt-2 mb-4 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
+            <li class="flex items-center p-1 text-sm gap-x-2 text-slate-600">
+                <a routerLink="/home"  class="text-white">Home</a>
+            </li>
+            <li class="flex items-center p-1 text-sm gap-x-2 text-slate-600">
+                <a routerLink="/products" routerLinkActive="active" class="text-white">All Products</a>
+            </li>
+        </ul>
+    </div>
+</nav>

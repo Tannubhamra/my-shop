@@ -10,5 +10,5 @@ import { NavComponent } from './shared/nav/nav.component';
   standalone: true
 })
 export class AppComponent {
-  title = 'my-project';
+  title = 'Shop';
 }

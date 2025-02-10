@@ -1,30 +1,33 @@
-<div class="head-div">
-    <h3>All Products</h3> 
-    <span class="float-right">
-        <a routerLink="/add-product">Add Product</a>
-    </span>
+<div class="py-4">
+    <h3 class="text-2xl font-semibold" >All Products</h3> 
+    <div class="text-right w-full">
+        <span class="bg-gray-800 text-white px-4 py-2 rounded-lg">
+            <a routerLink="/add-product">Add Product</a>
+        </span>
+    </div>
     <h3 *ngIf="store.successMessage$() as message">{{ message }}</h3>
 </div>
-<table class="product-table" >
-    <thead>
+<div class="mt-4">
+<table class="border w-full">
+    <thead class="border px-2">
         <tr>
             <th>Product Name</th>
             <th>Description</th>
             <th>Action</th>
         </tr>
     </thead>
-    <tbody >
-        <tr *ngFor="let product of store.getProducts">
+    <tbody class="">
+        <tr *ngFor="let product of store.getProducts" class="border">
             <td>{{ product.name }}</td> 
             <td>{{ product.description}}</td>
             <td>
-                <a [routerLink]="['/product', product.id]">View Details</a> | 
-                <a [routerLink]="['/product', product.id, 'edit']">Edit</a> |
-                <button (click)="deleteProduct(product.id)">Delete</button>
+                <a class="bg-gray-800 text-white px-2 py-1 rounded" [routerLink]="['/product', product.id]">View Details</a> | 
+                <a class="bg-gray-800 text-white px-2 py-1 rounded" [routerLink]="['/product', product.id, 'edit']">Edit</a> |
+                <button class="bg-gray-800 text-white px-2 py-1 rounded"  (click)="deleteProduct(product.id)">Delete</button>
             </td>
         </tr>
     </tbody>
 </table>
-
+</div>
 
 
