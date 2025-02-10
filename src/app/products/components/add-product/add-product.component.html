@@ -1,6 +1,6 @@
 <div class="container">
     <h2 class="text-2xl font-semibold text-center py-2"> {{ productId() ? 'Edit Product' : 'Add Product' }}</h2>
-    <h3 class="text-2xl font-semibold" *ngIf="store.successMessage$() as message">{{ message }}</h3>
+    <h3 class="text-2xl text-orange-500 text-center mt-4 mb-4" *ngIf="store.successMessage$() as message">{{ message }}</h3>
     <form [formGroup]="ProductForm" (ngSubmit)="saveProduct()" class="w-full px-8 py-4">
         <div class="items-center mt-4">
             <label class="block font-medium text-gray-900 pr-3">Name: </label>
@@ -17,9 +17,9 @@
             <input class="peer pr-3 text-gray-900 rounded border" type="text" formControlName="price"/>
         </div>
         
-        <div class="items-center mt-4">
+        <div class="items-center mt-4 relative ">
             <label class="block font-medium text-gray-900 pr-3">Status: </label>
-            <select type="text" formControlName="status" class="peer pr-3 text-gray-900 rounded border">
+            <select type="text" formControlName="status" class="peer min-w-[190px] pr-3 text-gray-900 rounded border">
                 <option [value]="true">Active</option> 
                 <option [value]="false">DeActive</option> 
             </select>
@@ -30,7 +30,7 @@
         </div>
     </form>
     <div class="text-right">
-        <a [routerLink]="['/products']">
+        <a [routerLink]="['/products']" class="bg-gray-800 text-white rounded-lg py-1 px-2">
             Back to list
         </a>
     </div>

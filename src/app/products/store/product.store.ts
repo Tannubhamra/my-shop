@@ -39,7 +39,7 @@ export class ProductStore {
   addProduct(product: Products) {
     this.productService.addProduct(product).subscribe((newProduct) => {
       this.products.update((current) => [...current, newProduct]);
-      this.successMessage.set("Product Added successFully!");
+      this.successMessage.set("Product added Successfully!");
     });
   }
 
@@ -48,7 +48,7 @@ export class ProductStore {
       this.products.update((products) =>
         products.map((p) => (p.id === updatedProduct.id ? updatedProduct : p))
       );
-      this.successMessage.set(`Product ${updatedProduct.id} Updated successFully!`);
+      this.successMessage.set(`Product ${updatedProduct.id} updated successfully!`);
     });
   }
 
@@ -56,7 +56,7 @@ export class ProductStore {
     this.productService.deleteProduct(id).subscribe(() => {
      const updatedProducts = this.products().filter((p) => p.id !== id);   
      this.products.set(updatedProducts);  
-     this.successMessage.set(`product with id: ${id} has been deleted`);
+     this.successMessage.set(`Product with id: ${id} has been eleted`);
     });
   }
 
