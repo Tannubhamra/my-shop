@@ -1,36 +1,37 @@
-<div class="container">
-    <h2 class="text-2xl font-semibold text-center py-2"> {{ productId() ? 'Edit Product' : 'Add Product' }}</h2>
+<div class="container mx-auto p-4 max-w-lg bg-white shadow-md rounded-lg">
     <h3 class="text-2xl text-orange-500 text-center mt-4 mb-4" *ngIf="store.successMessage$() as message">{{ message }}</h3>
+    
+    <h2 class="text-2xl font-bold mb-4"> {{ productId() ? 'Edit Product' : 'Add Product' }}</h2>
     <form [formGroup]="ProductForm" (ngSubmit)="saveProduct()" class="w-full px-8 py-4">
-        <div class="items-center mt-4">
-            <label class="block font-medium text-gray-900 pr-3">Name: </label>
-            <input class="peer pr-3 text-gray-900 border rounded " type="text" formControlName="name"/> 
+        <div class="mt-4">
+            <label class="block text-gray-700 font-semibold mb-1">Name: </label>
+            <input class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" type="text" formControlName="name"/> 
         </div>
-        <div class="items-center mt-4">
-            <label class="block font-medium text-gray-900 pr-3">Description: </label>
-             <textarea class="peer pr-3 text-gray-900 rounded border" formControlName="description">
+        <div class="mt-4">
+            <label class="block text-gray-700 font-semibold mb-1">Description: </label>
+             <textarea class="w-full p-2 border-gray-300 border rounded-lg focus:ring-2 focus:ring-blue-500" formControlName="description">
             This is the default comment...  
         </textarea>
         </div>
-        <div class="items-center mt-4">
-            <label class="block font-medium text-gray-900 pr-3">Price: </label>
-            <input class="peer pr-3 text-gray-900 rounded border" type="text" formControlName="price"/>
+        <div class="mt-4">
+            <label class="block text-grey-700 font-semibold mb-1">Price ($): </label>
+            <input class="w-full border border-gray-300 rounded-lg text-grey-700 p-2 focus:ring-2 focus:ring-blue-500" type="text" formControlName="price"/>
         </div>
         
-        <div class="items-center mt-4 relative ">
-            <label class="block font-medium text-gray-900 pr-3">Status: </label>
-            <select type="text" formControlName="status" class="peer min-w-[190px] pr-3 text-gray-900 rounded border">
+        <div class="mt-4">
+            <label class="block text-gray-700 font-semibold mb-1">Status: </label>
+            <select class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500" type="text" formControlName="status">
                 <option [value]="true">Active</option> 
                 <option [value]="false">DeActive</option> 
             </select>
         </div>
-        <div class="items-center mt-4">
-            <label class="block font-medium text-gray-900 pr-3"></label>
-            <button class="bg-gray-800 rounded-lg text-white py-1 px-2" type="submit" [disabled]="ProductForm.invalid">{{ productId() ? 'Edit': 'Submit'}}</button>
+        <div class="mt-4">
+            <label class="block text-gray-700"></label>
+            <button class="bg-sky-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700" type="submit" [disabled]="ProductForm.invalid">{{ productId() ? 'Edit': 'Submit'}}</button>
         </div>
     </form>
     <div class="text-right">
-        <a [routerLink]="['/products']" class="bg-gray-800 text-white rounded-lg py-1 px-2">
+        <a [routerLink]="['/products']" class="bg-sky-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700">
             Back to list
         </a>
     </div>
