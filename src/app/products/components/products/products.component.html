@@ -1,6 +1,6 @@
 <div class="container max-auto p-4">
     <div class="">
-        <h3 *ngIf="store.successMessage$() as message">{{ message }}</h3>
+        <h3 class="text-orange-500 text-2xl text-center" *ngIf="store.successMessage$() as message">{{ message }}</h3>
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-xl font-bold">Product List</h2>
              <a class="bg-sky-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700" routerLink="/add-product"> + Add Product</a>

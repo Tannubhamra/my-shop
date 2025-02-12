@@ -56,7 +56,7 @@ export class ProductStore {
     this.productService.deleteProduct(id).subscribe(() => {
      const updatedProducts = this.products().filter((p) => p.id !== id);   
      this.products.set(updatedProducts);  
-     this.successMessage.set(`Product with id: ${id} has been eleted`);
+     this.successMessage.set(`Product with id: ${id} has been deleted`);
     });
   }
 
