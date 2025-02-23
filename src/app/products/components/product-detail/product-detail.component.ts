@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { ProductsService } from '../../services/products/products.service';
 import { Products } from '../../interfaces/products';
+import { ProductStore } from '../../store/product.store';
 
 @Component({
   selector: 'app-product-detail',
@@ -13,10 +13,10 @@ import { Products } from '../../interfaces/products';
 })
 export class ProductDetailComponent implements OnInit {
   product!: Products;
+    store = inject(ProductStore);
 
   constructor( 
-    private route: ActivatedRoute, 
-    private productsService: ProductsService) {}
+    private route: ActivatedRoute) {}
 
     ngOnInit(): void {
         this.route.params.subscribe(params => {
@@ -25,7 +25,7 @@ export class ProductDetailComponent implements OnInit {
         })
     }
     fetchProductsById(productId:number) {
-      this.productsService.getProductById(productId).subscribe({
+      this.store.getProductById(productId).subscribe({
         next : (res) => {
           this.product = res;
         },

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, OnInit, Output, signal, WritableSignal } from '@angular/core';
+import { Component, EventEmitter, inject, OnInit, Output, Signal, signal, WritableSignal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ProductStore } from '../../store/product.store';
@@ -16,6 +16,7 @@ import { map } from 'rxjs';
 export class AddProductComponent implements OnInit {
 
   productId: WritableSignal<number | null> = signal(null);
+  salesArray = signal<number[]>([]);
 
   @Output() formSubmitted = new EventEmitter<void>();
   
@@ -38,8 +39,10 @@ export class AddProductComponent implements OnInit {
   ProductForm: FormGroup = this.fb.group({
     name: ["", Validators.required],
     description: ["",Validators.required ],
-    price: ["0.00$"],
-    status: [false]
+    price: [0],
+    stock: [0],
+    sales: [0],
+    salesCategory: [[]]
   });
 
   ngOnInit(): void {
@@ -53,7 +56,7 @@ export class AddProductComponent implements OnInit {
   saveProduct(): void {
 
     if (this.ProductForm.invalid) return;
-    const productData = this.ProductForm.value;
+    let productData = this.ProductForm.value;
 
     if (this.productId()) {
       this.store.updateProduct({ ...productData, id: this.productId() });
@@ -61,8 +64,9 @@ export class AddProductComponent implements OnInit {
       this.store.addProduct(productData);
     }
     this.formSubmitted.emit();
-    this.ProductForm.reset({ name: '', description: '', price: '', status: true });
+    this.ProductForm.reset({ name: '', description: '', price: '', stock: 0 , sales: 0, salesCategory: []});
 
-    this.store.clearMessage();
+    this.store.clearMessage(3000);
   }
+  
 }

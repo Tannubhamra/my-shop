@@ -21,7 +21,7 @@ export class ProductsComponent implements OnInit {
   deleteProduct(id:number){
     if(confirm("Are you sure to delete the project?")){
       this.store.deleteProduct(id);
-      this.store.clearMessage();
+      this.store.clearMessage(3000);
     }
   }
 }
