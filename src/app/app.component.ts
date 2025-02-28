@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { NavComponent } from './shared/nav/nav.component';
+import { NavComponent } from './shared/components/nav/nav.component';
 
 @Component({
   selector: 'app-root',
@@ -10,5 +10,5 @@ import { NavComponent } from './shared/nav/nav.component';
   standalone: true
 })
 export class AppComponent {
-  title = 'my-project';
+  title = 'Shop';
 }
