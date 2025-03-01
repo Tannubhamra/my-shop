@@ -34,17 +34,20 @@ export class SalesComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.getSales();
+    // this.createSvg();
+    // this.createBarChart();
   }
 
   createSvg() {
     const chartContainer = this.chartContainer.nativeElement;
-    d3.select(chartContainer).select('svg').remove(); // Clear previous chart
+    d3.select(chartContainer).select('svg').remove(); 
     
     this.svg = d3.select(chartContainer)
-        .append('svg') // Append svg element here
+        .append('svg') 
         .attr('width', this.svgWidth + this.margin.left + this.margin.right)
-        .attr('height', this.svgHeight + this.margin.top + this.margin.bottom)
+        .attr('height', this.svgHeight + this.margin.top + this.margin.bottom + 100)
         .append('g')
+        .attr('preserveAspectRatio', 'xMidYMid meet') // Ensures responsiveness
         .attr('transform', `translate(${this.margin.left},${this.margin.top})`);
   }
 
@@ -52,7 +55,7 @@ export class SalesComponent implements OnInit {
 
     interface StackedDatum {
       key: string;
-      values: [number, number][]; // An array of [start, end] for each stack in the bar
+      values: [number, number][];
     }
     const salesData = this.store.salesData();
     if(!salesData) return;
@@ -81,19 +84,14 @@ export class SalesComponent implements OnInit {
       .nice()
       .range([this.svgHeight, 0]);
 
-      console.log(categories);
-
-    // Color Scale
     const color = d3.scaleOrdinal()
       .domain(categories)
-      .range(["#ad2c23", "#4f802e", "#4d9294", "#9949a3"]); // Corresponding colors
+      .range(["#ad2c23", "#4f802e", "#4d9294", "#9949a3"]);
 
-    // Add X Axis
     this.svg.append("g")
       .attr("transform", `translate(0, ${this.svgHeight})`)
       .call(d3.axisBottom(this.xScale));
 
-    // Add Y Axis
     this.svg.append("g")
       .call(d3.axisLeft(this.yScale));
 
@@ -126,12 +124,30 @@ export class SalesComponent implements OnInit {
       })
       .on('mouseout', () => {
         const tooltip = d3.select(this.tooltip.nativeElement);  
-        tooltip.transition().duration(200).style('opacity', 0);
+        tooltip.transition().duration(300).style('opacity', 0);
       });
+
+      const legend = this.svg.append("g")
+      .attr("transform", `translate(0, ${this.svgHeight + 60})`); // Position below chart
+
+      const legendItem = legend.selectAll(".legend-item")
+      .data(categories)
+      .enter()
+      .append("g")
+      .attr("class", "legend-item")
+      .attr("transform", (d: any, i: number) => `translate(${i * 120}, 0)`); // Adjust spacing
       
-  }
+      // Colored squares
+      legendItem.append("rect")
+      .attr("width", 15)
+      .attr("height", 15)
+      .attr("fill", (d: string) => color(d));
 
-  
+      legendItem.append("text")
+      .attr("x", 20)
+      .attr("y", 12)
+      .style("font-size", "12px")
+      .text((d: any) => d);
+  }  
 
-  
 }
