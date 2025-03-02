@@ -22,6 +22,8 @@ export class SalesComponent implements OnInit {
   private svgWidth = 600 - this.margin.left - this.margin.right;
   private svgHeight = 400 - this.margin.top - this.margin.bottom;
 
+  private hiddenCategories: Set<string> = new Set();
+
   constructor(){
     effect(() => {
       const salesData = this.store.salesData();
@@ -62,8 +64,7 @@ export class SalesComponent implements OnInit {
 
     const categories = Object.keys(salesData.salesByCategory);
     const months = salesData.months;
-  
-    // Stack the data
+
     const salesArray = salesData.months.map((month, index) => {
       let obj: { [key: string]: number } = { };
       categories.forEach(category => {
@@ -101,6 +102,7 @@ export class SalesComponent implements OnInit {
       .data(stackedData)
       .enter()
       .append("g")
+      .attr("class", (d: any) => `bar-group-${d.key}`) 
       .attr("fill", (d: { key: string }) => color(d.key))
       .selectAll("rect")
       .data((d: any) => d)
@@ -135,7 +137,8 @@ export class SalesComponent implements OnInit {
       .enter()
       .append("g")
       .attr("class", "legend-item")
-      .attr("transform", (d: any, i: number) => `translate(${i * 120}, 0)`); // Adjust spacing
+      .attr("transform", (d: any, i: number) => `translate(${i * 120}, 0)`)
+      .on("click", (_: any, category: any) => this.toggleCategory(category));;
       
       // Colored squares
       legendItem.append("rect")
@@ -147,7 +150,26 @@ export class SalesComponent implements OnInit {
       .attr("x", 20)
       .attr("y", 12)
       .style("font-size", "12px")
-      .text((d: any) => d);
+      .text((d: any) => d)
+      .style("cursor", "pointer");
   }  
+  toggleCategory(category: string) {
 
+    if (this.hiddenCategories.has(category)) {
+      this.hiddenCategories.delete(category);
+    } else {
+      this.hiddenCategories.add(category);
+    }
+
+    d3.selectAll(`.bar-group-${category}`)
+    .transition()
+    .duration(500)
+    .style("opacity", this.hiddenCategories.has(category) ? 0 : 1)
+    .attr("height", (d: any) =>
+      this.hiddenCategories.has(category) ? 0 : this.yScale(d[0]) - this.yScale(d[1])
+    );
+
+  }    
 }
+
+
