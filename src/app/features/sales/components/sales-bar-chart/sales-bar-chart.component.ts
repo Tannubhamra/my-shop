@@ -3,7 +3,7 @@ import * as d3 from 'd3';
 import { SalesStore } from '../../store/sales.store';
 
 @Component({
-  selector: 'app-sales',
+  selector: 'app-sales-bar-chart',
   imports: [],
   templateUrl: './sales-bar-chart.component.html',
   styleUrl: './sales-bar-chart.component.scss'
