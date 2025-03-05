@@ -5,8 +5,8 @@ import { SalesStore } from '../../store/sales.store';
 @Component({
   selector: 'app-sales',
   imports: [],
-  templateUrl: './sales.component.html',
-  styleUrl: './sales.component.scss'
+  templateUrl: './sales-bar-chart.component.html',
+  styleUrl: './sales-bar-chart.component.scss'
 })
 
 export class SalesComponent implements OnInit {
@@ -36,8 +36,6 @@ export class SalesComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.getSales();
-    // this.createSvg();
-    // this.createBarChart();
   }
 
   createSvg() {
@@ -49,8 +47,8 @@ export class SalesComponent implements OnInit {
         .attr('width', this.svgWidth + this.margin.left + this.margin.right)
         .attr('height', this.svgHeight + this.margin.top + this.margin.bottom + 100)
         .append('g')
-        .attr('preserveAspectRatio', 'xMidYMid meet') // Ensures responsiveness
-        .attr('transform', `translate(${this.margin.left},${this.margin.top})`);
+        .attr('transform', `translate(${this.margin.left},${this.margin.top})`)
+        .attr('preserveAspectRatio', 'xMidYMid meet'); // Ensures responsiveness;
   }
 
   createBarChart() {
@@ -138,7 +136,7 @@ export class SalesComponent implements OnInit {
       .append("g")
       .attr("class", "legend-item")
       .attr("transform", (d: any, i: number) => `translate(${i * 120}, 0)`)
-      .on("click", (_: any, category: any) => this.toggleCategory(category));;
+      .on("click", (_: any, category: any) => this.toggleCategory(category));
       
       // Colored squares
       legendItem.append("rect")
@@ -153,6 +151,7 @@ export class SalesComponent implements OnInit {
       .text((d: any) => d)
       .style("cursor", "pointer");
   }  
+  
   toggleCategory(category: string) {
 
     if (this.hiddenCategories.has(category)) {
