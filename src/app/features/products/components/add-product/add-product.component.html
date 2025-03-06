@@ -1,55 +1,61 @@
-<div class="container w-full mx-auto p-4  bg-white shadow-md rounded-lg">
+<div class="container w-full mx-auto p-4 bg-white shadow-md rounded-lg">
     <h3 class="text-2xl text-orange-500 text-center mt-4 mb-4" *ngIf="store.successMessage$() as message">{{ message }}</h3>
     
-    <div class="w-full mb-4 mt-4 grid grid-cols-2 content-start text-center">
-        <div class="">
-            <h2 class="text-2xl font-bold "> {{ productId() ? 'Edit Product' : 'Add Product' }}</h2>
-        </div>
-        <div class="">
-            <a [routerLink]="['/products']" class="bg-sky-600 text-white px-4 py-2 mr-8 rounded-lg shadow-md hover:bg-blue-700">
-                Back to list
-            </a>
-        </div>
+    <div class="w-full mb-4 mt-4 grid grid-cols-1 sm:grid-cols-2 content-start text-center gap-4">
+      <div>
+        <h2 class="text-2xl font-bold">{{ productId() ? 'Edit Product' : 'Add Product' }}</h2>
+      </div>
+      <div>
+        <a [routerLink]="['/products']" class="bg-sky-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700">
+          Back to list
+        </a>
+      </div>
     </div>
+  
     <form [formGroup]="ProductForm" (ngSubmit)="saveProduct()" class="w-full px-8 py-4">
-       <div class="grid grid-cols-2 gap-4" >
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div class="mt-4">
-            <label class="block text-gray-700 font-semibold mb-1">Name: </label>
-            <input class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" type="text" formControlName="name"/> 
-        </div>
-        <div class="mt-4">
-            <label class="block text-gray-700 font-semibold mb-1">Description: </label>
-             <textarea class="w-full p-2 border-gray-300 border rounded-lg focus:ring-2 focus:ring-blue-500" formControlName="description">
-            This is the default comment...  
-        </textarea>
-        </div>
-        <div class="mt-4">
-            <label class="block text-grey-700 font-semibold mb-1">Price ($): </label>
-            <input class="w-full border border-gray-300 rounded-lg text-grey-700 p-2 focus:ring-2 focus:ring-blue-500" type="number" formControlName="price"/>
+          <label class="block text-gray-700 font-semibold mb-1">Name: </label>
+          <input class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" type="text" formControlName="name" />
         </div>
         
         <div class="mt-4">
-            <label class="block text-gray-700 font-semibold mb-1">Quantity: </label>
-            <input class="w-full border border-gray-300 rounded-lg text-grey-700 p-2 focus:ring-2 focus:ring-blue-500" type="number" formControlName="stock"/>
+          <label class="block text-gray-700 font-semibold mb-1">Description: </label>
+          <textarea class="w-full p-2 border-gray-300 border rounded-lg focus:ring-2 focus:ring-blue-500" formControlName="description">
+            This is the default comment...
+          </textarea>
         </div>
+  
         <div class="mt-4">
-            <label>Category: </label>
-            <select class="w-full border border-gray-300 rounded-lg text-grey-700 p-2 focus:ring-2 focus:ring-blue-500" formControlName="salesCategory">
-                <option value="laptop">Laptop</option>
-                <option value="smartphone">Smartphone</option>
-                <option value="tablet">Tablet</option>
-                <option value="headphone">Headphone</option>
-            </select>
+          <label class="block text-grey-700 font-semibold mb-1">Price ($): </label>
+          <input class="w-full border border-gray-300 rounded-lg text-grey-700 p-2 focus:ring-2 focus:ring-blue-500" type="number" formControlName="price" />
         </div>
+        
         <div class="mt-4">
-            <label>Sales: </label>
-            <input type="number" class="w-full border border-gray-300 rounded-lg text-grey-700 p-2 focus:ring-2 focus:ring-blue-500" 
-            formControlName="sales" />
-          </div>
-        <div class="mt-4">
-            <label class="block text-gray-700"></label>
-            <button class="bg-sky-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700" type="submit" [disabled]="ProductForm.invalid">{{ productId() ? 'Edit': 'Submit'}}</button>
+          <label class="block text-gray-700 font-semibold mb-1">Quantity: </label>
+          <input class="w-full border border-gray-300 rounded-lg text-grey-700 p-2 focus:ring-2 focus:ring-blue-500" type="number" formControlName="stock" />
         </div>
-    </div>
+  
+        <div class="mt-4">
+          <label>Category: </label>
+          <select class="w-full border border-gray-300 rounded-lg text-grey-700 p-2 focus:ring-2 focus:ring-blue-500" formControlName="salesCategory">
+            <option value="laptop">Laptop</option>
+            <option value="smartphone">Smartphone</option>
+            <option value="tablet">Tablet</option>
+            <option value="headphone">Headphone</option>
+          </select>
+        </div>
+  
+        <div class="mt-4">
+          <label>Sales: </label>
+          <input type="number" class="w-full border border-gray-300 rounded-lg text-grey-700 p-2 focus:ring-2 focus:ring-blue-500" formControlName="sales" />
+        </div>
+  
+        <div class="mt-4">
+          <label class="block text-gray-700"></label>
+          <button class="bg-sky-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700" type="submit" [disabled]="ProductForm.invalid">{{ productId() ? 'Edit' : 'Submit' }}</button>
+        </div>
+      </div>
     </form>
-</div>
+  </div>
+  
