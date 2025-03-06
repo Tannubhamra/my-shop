@@ -1,15 +1,16 @@
-import { Component, ElementRef, inject, OnInit, ViewChild, effect } from '@angular/core';
+import { Component, ElementRef, inject, OnInit, ViewChild, effect, OnDestroy } from '@angular/core';
 import * as d3 from 'd3';
 import { SalesStore } from '../../store/sales.store';
+import { salesChart } from '../../interfaces/sales';
 
 @Component({
-  selector: 'app-sales',
+  selector: 'app-sales-bar-chart',
   imports: [],
-  templateUrl: './sales.component.html',
-  styleUrl: './sales.component.scss'
+  templateUrl: './sales-bar-chart.component.html',
+  styleUrl: './sales-bar-chart.component.scss'
 })
 
-export class SalesComponent implements OnInit {
+export class SalesComponent implements OnInit , OnDestroy {
   @ViewChild('chartContainer', {static : true}) chartContainer!: ElementRef;
   @ViewChild('tooltip', { static: true}) tooltip!:ElementRef
 
@@ -19,8 +20,9 @@ export class SalesComponent implements OnInit {
   private xScale:any;
   private yScale:any;
   private margin = { top: 30, right: 30, bottom: 50, left: 50 };
-  private svgWidth = 600 - this.margin.left - this.margin.right;
+  private svgWidth!: number;
   private svgHeight = 400 - this.margin.top - this.margin.bottom;
+  private containerWidth : number = 0;
 
   private hiddenCategories: Set<string> = new Set();
 
@@ -29,37 +31,52 @@ export class SalesComponent implements OnInit {
       const salesData = this.store.salesData();
       if(salesData) {
         this.createSvg();
-        this.createBarChart();
+        this.createBarChart(salesData);
       }
     })
   }
 
   ngOnInit(): void {
     this.store.getSales();
-    // this.createSvg();
-    // this.createBarChart();
+    window.addEventListener("resize", this.handleResize);
   }
+
+  ngOnDestroy(): void {
+    window.removeEventListener("resize", this.handleResize);
+  }
+
+  handleResize = () => {
+    this.createSvg();
+    this.createBarChart(this.store.getSales()!);
+  };
 
   createSvg() {
     const chartContainer = this.chartContainer.nativeElement;
+    this.containerWidth = chartContainer.clientWidth;
+    const containerHeight = 350; 
+
+    this.svgWidth = this.containerWidth - this.margin.left - this.margin.right;
+    this.svgHeight = containerHeight - this.margin.top - this.margin.bottom;
+
     d3.select(chartContainer).select('svg').remove(); 
     
     this.svg = d3.select(chartContainer)
         .append('svg') 
-        .attr('width', this.svgWidth + this.margin.left + this.margin.right)
-        .attr('height', this.svgHeight + this.margin.top + this.margin.bottom + 100)
+        .attr('width', this.svgWidth)
+        .attr('height', this.svgHeight + 100)
+        .attr("viewBox", `0 0 ${this.containerWidth} ${containerHeight}`) 
+        .attr("preserveAspectRatio", "xMidYMid meet") 
         .append('g')
-        .attr('preserveAspectRatio', 'xMidYMid meet') // Ensures responsiveness
-        .attr('transform', `translate(${this.margin.left},${this.margin.top})`);
+        .attr('transform', `translate(${this.margin.left},${this.margin.top})`)
   }
 
-  createBarChart() {
+  createBarChart(salesData:salesChart) {
 
     interface StackedDatum {
       key: string;
       values: [number, number][];
     }
-    const salesData = this.store.salesData();
+
     if(!salesData) return;
 
     const categories = Object.keys(salesData.salesByCategory);
@@ -130,15 +147,15 @@ export class SalesComponent implements OnInit {
       });
 
       const legend = this.svg.append("g")
-      .attr("transform", `translate(0, ${this.svgHeight + 60})`); // Position below chart
+      .attr("transform", `translate(${this.svgWidth /4 }, ${this.svgHeight + 40})`); // Position below chart
 
       const legendItem = legend.selectAll(".legend-item")
       .data(categories)
       .enter()
       .append("g")
       .attr("class", "legend-item")
-      .attr("transform", (d: any, i: number) => `translate(${i * 120}, 0)`)
-      .on("click", (_: any, category: any) => this.toggleCategory(category));;
+      .attr("transform", (d: any, i: number) => `translate(${i * 100}, 0)`)
+      .on("click", (_: any, category: any) => this.toggleCategory(category));
       
       // Colored squares
       legendItem.append("rect")
@@ -153,6 +170,7 @@ export class SalesComponent implements OnInit {
       .text((d: any) => d)
       .style("cursor", "pointer");
   }  
+  
   toggleCategory(category: string) {
 
     if (this.hiddenCategories.has(category)) {
