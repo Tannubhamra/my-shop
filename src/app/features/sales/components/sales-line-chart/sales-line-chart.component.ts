@@ -70,7 +70,8 @@ export class SalesLineChartComponent implements OnInit, OnDestroy {
   }
 
   drawLineChart(salesData: salesChart){
-    const categories = Object.keys(salesData.salesByCategory);
+    const categories = Object.keys(salesData.salesByCategory)
+    .filter(category => category !== "" && category !== null);
     const months = salesData.months;
 
     const xScale = d3.scalePoint()
@@ -143,7 +144,7 @@ export class SalesLineChartComponent implements OnInit, OnDestroy {
 
    // Add legend
    const legend = this.svg.append("g")
-   .attr("transform", `translate(${this.width /4}, ${this.height + 60})`);
+   .attr("transform", `translate(${this.width /4}, ${this.height + 40})`);
 
   categories.forEach((category, i) => {
    const legendItem = legend.append("g")
