@@ -1,4 +1,4 @@
-import { Component, effect, ElementRef, inject, OnInit, signal, ViewChild } from '@angular/core';
+import { Component, effect, ElementRef, inject, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
 import { SalesStore } from '../../store/sales.store';
 import { salesChart } from '../../interfaces/sales';
 import * as d3 from 'd3';
@@ -9,7 +9,7 @@ import * as d3 from 'd3';
   templateUrl: './sales-line-chart.component.html',
   styleUrl: './sales-line-chart.component.scss'
 })
-export class SalesLineChartComponent implements OnInit {
+export class SalesLineChartComponent implements OnInit, OnDestroy {
 
   @ViewChild('chartContainer', { static: true }) chartContainer!: ElementRef;
   @ViewChild('tooltip', {static:true}) tooltip!:ElementRef;
@@ -18,8 +18,9 @@ export class SalesLineChartComponent implements OnInit {
   
   private svg: any;
   private margin = { top: 50, right: 30, bottom: 50, left: 50 };
-  private width = 700 - this.margin.left - this.margin.right;
+  private width!: number;
   private height = 400 - this.margin.top - this.margin.bottom;
+  private containerWidth : number = 0;
 
   private hiddenCategories: Set<string> = new Set();
 
@@ -35,26 +36,43 @@ export class SalesLineChartComponent implements OnInit {
   
   ngOnInit(): void {
     this.store.getSales();
+    window.addEventListener('resize', this.handleResize)
+  }
+  ngOnDestroy(): void {
+    window.removeEventListener('resize', this.handleResize)
+  }
+
+  handleResize = () => {
+    this.createSvg();
+    const salesData = this.store.salesData()!;
+    this.drawLineChart(salesData);
   }
 
   createSvg(){
     const chartContainer = this.chartContainer.nativeElement;
+    this.containerWidth = chartContainer.clientWidth;
+    const containerHeight = 350;
+
+    this.width = this.containerWidth - this.margin.left - this.margin.right;
+    this.height = containerHeight - this.margin.top - this.margin.bottom;
+    
+
     d3.select(chartContainer).select('svg').remove(); // Clear previous chart
     
     this.svg = d3.select(chartContainer)
       .append('svg')
-      .attr('width', this.width + this.margin.left + this.margin.right)
-      .attr('height', this.height + this.margin.top + this.margin.bottom + 100)
+      .attr("viewBox", `0 0 ${this.containerWidth} ${containerHeight}`)
+      .attr("preserveAspectRatio", "xMidYMid meet")
+      .attr('width', this.width )
+      .attr('height', this.height + 100)
       .append('g')
-      .attr('transform', `translate(${this.margin.left},${this.margin.top})`)
-      .attr('preserveAspectRatio', 'xMidYMid meet');
+      .attr('transform', `translate(${this.margin.left},${this.margin.top})`);
   }
 
   drawLineChart(salesData: salesChart){
     const categories = Object.keys(salesData.salesByCategory);
     const months = salesData.months;
 
-    // Scales
     const xScale = d3.scalePoint()
       .domain(months)
       .range([0, this.width])
@@ -77,12 +95,10 @@ export class SalesLineChartComponent implements OnInit {
                   .style("border-radius", "5px")
                   .style("opacity", 0);
 
-    // Add X Axis
     this.svg.append("g")
       .attr("transform", `translate(0, ${this.height})`)
       .call(d3.axisBottom(xScale));
 
-    // Add Y Axis
     this.svg.append("g").call(d3.axisLeft(yScale));
 
      // Line Generator
@@ -127,7 +143,7 @@ export class SalesLineChartComponent implements OnInit {
 
    // Add legend
    const legend = this.svg.append("g")
-   .attr("transform", `translate(0, ${this.height + 60})`);
+   .attr("transform", `translate(${this.width /4}, ${this.height + 60})`);
 
   categories.forEach((category, i) => {
    const legendItem = legend.append("g")
@@ -148,8 +164,6 @@ export class SalesLineChartComponent implements OnInit {
   });
 
   }
-
-  // Toggle category visibility
   toggleCategory (category: string) {
     if (this.hiddenCategories.has(category)) {
       this.hiddenCategories.delete(category);
