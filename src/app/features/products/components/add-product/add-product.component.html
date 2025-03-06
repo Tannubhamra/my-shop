@@ -1,14 +1,9 @@
 <div class="container w-full mx-auto p-4 bg-white shadow-md rounded-lg">
     <h3 class="text-2xl text-orange-500 text-center mt-4 mb-4" *ngIf="store.successMessage$() as message">{{ message }}</h3>
     
-    <div class="w-full mb-4 mt-4 grid grid-cols-1 sm:grid-cols-2 content-start text-center gap-4">
+    <div class="w-full mb-4 mt-4 content-start text-center">
       <div>
         <h2 class="text-2xl font-bold">{{ productId() ? 'Edit Product' : 'Add Product' }}</h2>
-      </div>
-      <div>
-        <a [routerLink]="['/products']" class="bg-sky-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700">
-          Back to list
-        </a>
       </div>
     </div>
   
@@ -55,6 +50,12 @@
           <label class="block text-gray-700"></label>
           <button class="bg-sky-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700" type="submit" [disabled]="ProductForm.invalid">{{ productId() ? 'Edit' : 'Submit' }}</button>
         </div>
+
+      <div class="mt-4">
+        <a [routerLink]="['/products']" class="bg-sky-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700">
+          Back to list
+        </a>
+      </div>
       </div>
     </form>
   </div>

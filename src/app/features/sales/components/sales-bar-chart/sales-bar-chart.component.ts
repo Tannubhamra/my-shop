@@ -78,8 +78,9 @@ export class SalesComponent implements OnInit , OnDestroy {
     }
 
     if(!salesData) return;
-
-    const categories = Object.keys(salesData.salesByCategory);
+    
+    const categories = Object.keys(salesData.salesByCategory)
+    .filter(category => category !== "" && category !== null);
     const months = salesData.months;
 
     const salesArray = salesData.months.map((month, index) => {
