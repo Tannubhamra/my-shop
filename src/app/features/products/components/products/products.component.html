@@ -7,6 +7,7 @@
         <a class="bg-sky-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700" routerLink="/products/add">+ Add Product</a>
       </div>
     </div>
+  
     <div class="overflow-hidden bg-white shadow-md rounded-lg p-4">
       <cdk-virtual-scroll-viewport itemSize="10" class="w-full" style="height: 500px;" >
         <table class="w-full border border-gray-300 hidden sm:table">
@@ -29,8 +30,9 @@
             </tr>
           </tbody>
         </table>
+        
       </cdk-virtual-scroll-viewport>
-  
+     
       <!-- Mobile View - Stacked Cards -->
       <div class="block sm:hidden">
         <div class="space-y-4">

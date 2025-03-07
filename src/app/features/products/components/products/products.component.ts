@@ -14,7 +14,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling'
 
 export class ProductsComponent implements OnInit {
   store = inject(ProductStore);
-
+  
   ngOnInit(): void {
     this.store.fetchProducts();
   }
