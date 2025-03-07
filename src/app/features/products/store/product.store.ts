@@ -12,14 +12,12 @@ export class ProductStore {
 
   private router = inject(Router);
 
-  private products = signal<Products[]>([]);
-  private loading = signal(false);         
+  private products = signal<Products[]>([]);        
   private error = signal<string | null>(null);
   public successMessage = signal<string | null>(null); 
 
   readonly products$ = computed(() => this.products());
   readonly productCount$ = computed(() => this.products().length);
-  readonly isLoading$ = computed(() => this.loading());
   readonly error$ = computed(() => this.error());
   readonly successMessage$ = computed(() => this.successMessage());
 
@@ -32,11 +30,9 @@ export class ProductStore {
   }
 
   fetchProducts() {
-    this.loading.set(true);
     this.http.get<Products[]>(`${this.apiUrl}/products`).subscribe({
       next: (products) => this.products.set(products),
       error: () => this.error.set('Failed to fetch products'),
-      complete: () => this.loading.set(false),
     });
   }
 
