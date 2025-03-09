@@ -1,3 +1,27 @@
+# Products and Sales Frontend
+
+This is an Angular-based frontend application for managing products and sales. It is built with the latest Angular features and follows best practices for performance, scalability, and maintainability.
+
+## Features
+
+- **State Management**: Utilizes Signal Store for efficient state handling.
+- **Lazy Loading**: Optimized module loading for better performance.
+- **Virtual Scrolling**: Improves UI performance when displaying large lists.
+- **Charts & Data Visualization**: Uses D3.js to generate insightful visualizations.
+- **Responsive UI**: Designed with Tailwind CSS for a modern and adaptive user experience.
+
+## Backend
+
+The application connects to a JSON-based backend built with **Node.js**, which is deployed in a separate repository:  
+🔗 **[Backend Repository](https://github.com/Tannubhamra/Backend-shop)**
+
+## Installation
+
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/your-repo/frontend-shop.git
+   cd frontend-shop
+
 # MyProject
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.7.
