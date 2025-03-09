@@ -1,8 +1,9 @@
-# Products and Sales Frontend
+# My Shop Frontend
 
+- **Products and Sales Frontend**
 This is an Angular-based frontend application for managing products and sales. It is built with the latest Angular features and follows best practices for performance, scalability, and maintainability.
 
-## Features
+## Features 
 
 - **State Management**: Utilizes Signal Store for efficient state handling.
 - **Lazy Loading**: Optimized module loading for better performance.
